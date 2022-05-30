@@ -46,7 +46,6 @@ function start() {
 }
 
 function render() {
-
   one.y += one.top;
   two.y = ball.y - two.elem.offsetHeight / 2;
 
@@ -103,7 +102,6 @@ function render() {
   two.elem.style.setProperty('--y', two.y + 'px');
   ball.elem.style.setProperty('--x', ball.x + 'px');
   ball.elem.style.setProperty('--y', ball.y + 'px');
-
 }
 
 document.addEventListener('keydown', e => {
@@ -128,6 +126,10 @@ document.addEventListener('keyup', e => {
 }, false);
 
 window.onload = (e) => {
+  onLoad();
+}
+
+export default function onLoad() {
   game = $('.game');
   start_button = $('.start');
   onescore = $('.onescore');
