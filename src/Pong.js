@@ -21,6 +21,7 @@ var game = $('.game'),
     two = {
       elem: $('.paddle.two'),
       y: 0,
+      top: 0,
       score: 0
     },
     interval;
@@ -41,16 +42,26 @@ function start() {
   ball.x = game.offsetWidth / 2 - ball.elem.offsetWidth / 2;
   ball.y = game.offsetHeight / 2 - ball.elem.offsetHeight / 2;
   ball.top = Math.random() * 2 + 2;
-  ball.left = (1 * Math.random() * 2 + 2);
+  ball.left = Math.random() * 2 + 2;
   interval = window.setInterval(render, 1000 / 60);
 }
 
 function render() {
+  two.y += two.top;
   one.y += one.top;
-  two.y = ball.y - two.elem.offsetHeight / 2;
 
-  ball.x += ball.left;
-  ball.y += ball.top;
+  var speed_mod = Math.min(1 + ((one.score + two.score) * 0.2), 2);
+
+  if (one.y - ball.y >= (3 * speed_mod)) {
+    one.top = (-3 * speed_mod);
+  } else if (one.y - ball.y <= (-3 * speed_mod)) {
+    one.top = (3 * speed_mod);
+  } else {
+    one.top = 0;
+  }
+
+  ball.x += ball.left * speed_mod;
+  ball.y += ball.top * speed_mod;
 
   if(one.y <= 0) {
       one.y = 0;
@@ -104,24 +115,44 @@ function render() {
   ball.elem.style.setProperty('--y', ball.y + 'px');
 }
 
+let keysPressed = {};
+
 document.addEventListener('keydown', e => {
-  if(e.code === 'Enter') {
-    init();
+  keysPressed[e.key] = true;
+
+  if(e.key === 'Enter') {
+    start_button.click();
   }
-  if(e.code === 'ArrowUp') {
-      one.top = -8;
+  if(e.key === 'ArrowUp' || keysPressed['ArrowUp']) {
+    // if(keysPressed['Shift']) {
+    //   two.top = -8;
+    // } else {
+      two.top = -4;
+    // }
   }
-  if(e.code === 'ArrowDown') {
-      one.top = 8;
+  if(e.key === 'ArrowDown' || keysPressed['ArrowDown']) {
+    // if(keysPressed['Shift']) {
+    //   two.top = 8;
+    // } else {
+      two.top = 4;
+    // }
+  }
+  if(e.key === 'Shift' || keysPressed['Shift']) {
+    two.top *= 2;
   }
 }, false);
 
 document.addEventListener('keyup', e => {
-  if(e.code === 'ArrowUp') {
-      one.top = 0;
+  keysPressed[e.key] = false;
+
+  if(e.key === 'ArrowUp') {
+      two.top = 0;
   }
-  if(e.code === 'ArrowDown') {
-      one.top = 0;
+  if(e.key === 'ArrowDown') {
+      two.top = 0;
+  }
+  if(e.key === 'Shift') {
+    two.top /= 2;
   }
 }, false);
 

@@ -1,7 +1,8 @@
 :root {
     --text-color: #646B8C;
     --confirm-color: #fff;
-    --confirm-background: #275EFE;
+    --confirm-background: black;
+    --confirm-border: aquamarine;
     --game-paddle: fuchsia;
     --game-ball: aquamarine;
     --background-color: #474747;
@@ -16,6 +17,7 @@
     transform: translateX(50%);
     transition: opacity .3s ease .8s;
     .scores {
+        cursor: default;
         top: 0;
         font-size: 25vh;
         position: absolute;
@@ -56,6 +58,7 @@
         left: 0;
     }
     .start {
+        cursor: pointer;
         position: absolute;
         text-align: center;
         white-space: nowrap;
@@ -65,8 +68,13 @@
         transition: opacity .3s;
         button {
             cursor: pointer;
-            color: var(--confirm-color);
-            background: var(--confirm-background);
+            height: 30px;
+            width: 60px;
+            background: 
+                linear-gradient(black, black) padding-box,
+                linear-gradient(to right, aquamarine 5%, fuchsia, aquamarine 95%) border-box;
+            border: 5px solid transparent;
+            border-radius: 15px;
         }
         small {
             margin: 4px 0 0 0;
@@ -77,6 +85,10 @@
         }
     }
     &:not(.idle) {
+        cursor: none;
+        .scores {
+            cursor: none;
+        }
         .start {
             opacity: 0;
             pointer-events: none;
