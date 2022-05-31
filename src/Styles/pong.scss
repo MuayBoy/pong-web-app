@@ -38,6 +38,7 @@
         transform: translate(var(--x, 0), var(--y, 0));
     }
     .paddle {
+        transition: transform .1s ease;
         width: 6px;
         height: 48px;
         border-radius: 3px;
